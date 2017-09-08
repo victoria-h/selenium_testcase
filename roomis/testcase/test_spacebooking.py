@@ -7,7 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
-import config.py
+from config import *
+import initenv
 class Testspacebooking(unittest.TestCase):
 
   def setUp(self):
@@ -22,7 +23,7 @@ class Testspacebooking(unittest.TestCase):
     # pass1.send_keys("11111111")
     # self.driver.find_element_by_xpath("/html/body/div/div/div/form/button").click()
     # time.sleep(15)
-    config.SetUp.Login(self)
+    initenv.Login(self)
 
   def test_1createbooking(self):
     new_date = time.strftime('%Y-%m-%d', time.localtime())
@@ -33,6 +34,7 @@ class Testspacebooking(unittest.TestCase):
     # print (new_date)
     # print (start_time)
     # print (end_time)
+    url=geturl()
     createbookingurl= url+"/console/booking/spaces/200000165/events/new?date="+new_date+"&start_time="+start_time+"&end_time="+end_time
     # print(createbookingurl)
     self.driver.get(createbookingurl)

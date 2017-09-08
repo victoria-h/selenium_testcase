@@ -1,29 +1,38 @@
-# -*- coding:utf-8 -*-
-import unittest
-import time
-import datetime
-import HTMLTestRunner,sys
+# -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.support import expected_conditions as EC
-
-class SetUp(unittest.TestCase):
-
-  def Login(self):
-    global url
-    url = "http://console.qa.roomis.com.cn"
-    self.driver = webdriver.Firefox(executable_path="/usr/local/bin/geckodriver")
-    loginurl= url+"/login"
-    self.driver.get(loginurl)
-    username1 = self.driver.find_element_by_id("username")
-    pass1 = self.driver.find_element_by_id("password")
-    username1.send_keys("roomis-k12")
-    pass1.send_keys("11111111")
-    self.driver.find_element_by_xpath("/html/body/div/div/div/form/button").click()
-    time.sleep(15)
-
-    def tearDown(self):
-        self.driver.close()
 
 
+domain = "http://console.qa.roomis.com.cn"
+username= "roomis-k12"
+password="11111111"
+
+spacename="空间se13"
+displayname="班牌se13"
+spacecapacity="100"
+
+
+
+
+# def getdriver():
+#     global driver
+#     return driver
+# def getusername():
+#   global username
+#   return username
+# def getpassword():
+#   global password
+#   return password
+#
+# def getspacename():
+#   global spacename
+#   return spacename
+# def getdisplayname():
+#   global displayname
+#   return displayname
+# def getspacecapacity():
+#   global spacecapacity
+#   return spacecapacity
+#
+# def getdeletespaceid():
+#   global deletespaceid
+#   return deletespaceid

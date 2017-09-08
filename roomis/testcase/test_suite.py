@@ -3,15 +3,17 @@
 import unittest
 
 from HTMLTestRunner import HTMLTestRunner
-from roomis.testcase.test_managespace import Testmanagespace
-from roomis.testcase.test_spacebooking import Testspacebooking
+from test_managespace import Testmanagespace
+from test_spacebooking import Testspacebooking
+import config
+import initenv
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-
-    testspacebookings = [Testspacebooking("test_1createbooking"), Testspacebooking("test_2canclebooking")]
+    # testspacebookings = [Testspacebooking("test_1createbooking"), Testspacebooking("test_2canclebooking")]
     testmanagespaces = [Testmanagespace("test_createspace"), Testmanagespace("test_deletespace")]
-    suite.addTests(testspacebookings)
+    # suite.addTests(testspacebookings)
     suite.addTests(testmanagespaces)
     with open('HTMLReport.html', 'wb') as tf:
         runner = HTMLTestRunner(stream=tf,
@@ -20,4 +22,6 @@ if __name__ == '__main__':
                                 verbosity=2
                                 )
         runner.run(suite)
+# def tearDown(self):
+#     initenv.tearDown(self)
 
