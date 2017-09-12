@@ -7,8 +7,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
-from config import *
+import config
 import initenv
+
+url = config.domain
 class Testspacebooking(unittest.TestCase):
 
   def setUp(self):
@@ -23,7 +25,7 @@ class Testspacebooking(unittest.TestCase):
     # pass1.send_keys("11111111")
     # self.driver.find_element_by_xpath("/html/body/div/div/div/form/button").click()
     # time.sleep(15)
-    initenv.Login(self)
+    initenv.login(self)
 
   def test_1createbooking(self):
     new_date = time.strftime('%Y-%m-%d', time.localtime())
@@ -31,14 +33,11 @@ class Testspacebooking(unittest.TestCase):
     now = datetime.datetime.now()
     d2 = now + datetime.timedelta(minutes=15)
     end_time=d2.strftime("%H:%M")
-    # print (new_date)
-    # print (start_time)
-    # print (end_time)
-    url=geturl()
-    createbookingurl= url+"/console/booking/spaces/200000165/events/new?date="+new_date+"&start_time="+start_time+"&end_time="+end_time
-    # print(createbookingurl)
+    bookingspaceid="200000165"
+    createbookingurl= url+"/console/booking/spaces/"+bookingspaceid+"/events/new?date="+new_date+"&start_time="+start_time+"&end_time="+end_time
     self.driver.get(createbookingurl)
     time.sleep(15)
+    assert "创建空间预约" in self.driver.title
     bookingname=self.driver.find_element_by_id("booking-event-name")
     bookingname.send_keys("空间预约s1")
     bookingtype=self.driver.find_element_by_id("booking-event-extern-form-name")
@@ -47,30 +46,26 @@ class Testspacebooking(unittest.TestCase):
     self.driver.find_element_by_css_selector("button").submit()
     time.sleep(15)
     pageurl = self.driver.current_url
-    assert "successs" not in pageurl
-    print (pageurl)
+    assert "预约提交成功" in self.driver.page_source
+    # print (pageurl)
     global newstring
     newstring=pageurl.split("/success")[0]
     print (newstring)
-    self.driver.get_screenshot_as_file("/Users/zhaopanhong/PycharmProjects/selenium_testcase/roomis/pic/1.png")
+    self.driver.get_screenshot_as_file("/Users/zhaopanhong/PycharmProjects/selenium_testcase/roomis/pic/createbooking.png")
 
   def test_2canclebooking(self):
     self.driver.get(newstring)
     time.sleep(15)
+    assert "取消预约" in self.driver.page_source
     self.driver.find_element_by_link_text("取消预约").click()
     time.sleep(15)
     self.driver.find_element_by_css_selector("#cancelBookingEvent > div > div > div.modal-footer.no-borders.text-center > button.btn.btn-primary.ladda-button.btn-custom.m-r-md > span.ladda-label").click()
     time.sleep(25)
-    # assert "DONE" not in self.driver.page_source
+    assert "DONE" in self.driver.page_source
 
 
   def tearDown(self):
       self.driver.close ()
-def Suite():
-    suiteTest = unittest.TestSuite()
-    suiteTest.addTest(Testspacebooking("test_1createbooking"))
-    suiteTest.addTest(Testspacebooking("test_2canclebooking"))
-    return suiteTest
 
 
 # if __name__ == '__main__':
@@ -78,7 +73,7 @@ def Suite():
 #     filePath = "/Users/zhaopanhong/PycharmProjects/selenium_testcase/roomis/test_spacebookingResult.html"
 #     file_result = open(filePath, 'wb')
 #
-#
+
 #     runner = HTMLTestRunner.HTMLTestRunner(stream=file_result,title='spacebooking Test Report',description='This  is spacebooking test  Report')
 #     runner.run(Suite())
 if __name__ == "__main__":
